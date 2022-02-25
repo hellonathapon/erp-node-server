@@ -15,6 +15,6 @@ app.use('/api/customer', require('./router/api/customer'));
 const server = app.listen(process.env.PORT || 5000, () => {
     const host = server.address().address
     const port = server.address().port
-    console.log(`Server is running at http://${host}:${port}`)
+    console.log(`🚀 Server is running at http://${host}:${port}`)
 });
 

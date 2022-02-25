@@ -13,11 +13,17 @@ router.post('/', async (req, res) => {
         const result = await pool.request()
         .input('Username', username)
         .execute('CHECKUSER')
-        
-        // TODO: if username exist -> decrypt password and compare
-        // TODO: query all the data 
-        console.log(result)
-        res.json(result.recordset)
+
+        // no user in db
+        if(!result.recordset.length) {
+            res.status(404).json('Username not found!')
+        }else if(password !== result.recordset[0].Password.trim()){  // there's some extra space in db :)
+            // Check password
+            // TODO (feat): if username exist -> decrypt password and compare
+            res.status(401).json('Password not match!');
+        }else {
+            res.status(200).json(result.recordset)
+        }
     }catch (err) {
         console.log(err)
     }
