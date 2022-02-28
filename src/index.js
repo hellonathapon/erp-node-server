@@ -8,6 +8,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 // Handle Routes
+// TODO: restrict api routes for authenticated user
 app.use('/login', require('./router/auth/login'));
 app.use('/api/customer', require('./router/api/customer'));
 app.use('/api/address', require('./router/api/address'));
