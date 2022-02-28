@@ -10,6 +10,7 @@ app.use(express.urlencoded({extended: false}));
 // Handle Routes
 app.use('/login', require('./router/auth/login'));
 app.use('/api/customer', require('./router/api/customer'));
+app.use('/api/address', require('./router/api/address'));
 
 
 const server = app.listen(process.env.PORT || 5000, () => {
@@ -17,4 +18,3 @@ const server = app.listen(process.env.PORT || 5000, () => {
     const port = server.address().port
     console.log(`🚀 Server is running at http://${host}:${port}`)
 });
-

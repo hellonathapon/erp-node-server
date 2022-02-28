@@ -13,16 +13,9 @@ const sqlConfig = {
     password: SQL_PASSWORD,
     server: SQL_SERVER, //the IP of the machine where SQL Server runs
     database: SQL_DATABASE,
-
+    // port: '1433',
     options: {
-        instanceName: 'SQLEXPRESS',
-        debug: {
-            packet: false,
-            payload: false,
-            token: false,
-            data: false
-        },
-        //encrypt: true // for Azure config
+        encrypt: false
     }
 
 };

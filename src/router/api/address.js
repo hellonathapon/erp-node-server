@@ -6,7 +6,7 @@ router.get('/', async (req, res) => {
     try {
         const pool = await poolPromise;
         const result = await pool.request()
-        .execute('GET_ADDRESSES');
+        .execute('GetAddress');
 
         res.status(200).json(result);
     }catch(err) {
@@ -16,12 +16,40 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
 
-    const { name, email, phone, fax, status, created_at } = req.body;
+    const { 
+        name, 
+        typeAdress, 
+        addressName, 
+        building, 
+        subDistrict, 
+        district,
+        province,
+        postalCode,
+        description,
+        dateCreate,
+        customerID
+    } = req.body;
     
-    const pool = await poolPromise
-    const result = await pool.request()
-        .input('Username', username)
-        .execute('CHECKUSER')
+    try {
+        const pool = await poolPromise
+        const result = await pool.request()
+        .input('Name', name)
+        .input('TypeAddress', typeAdress)
+        .input('AddressName', addressName)
+        .input('Building', building)
+        .input('SubDistrict', subDistrict)
+        .input('District', district)
+        .input('Province', province)
+        .input('PostalCode', postalCode)
+        .input('Description', description)
+        .input('DateCreate', dateCreate)
+        .input('Cus_Id', customerID)
+        .execute('InsertAddress')
+
+        res.status(201).json('Created Address successfully');
+    }catch(err) {
+        console.error(err);
+    }
 });
 
 router.put('/', async (req, res) => {

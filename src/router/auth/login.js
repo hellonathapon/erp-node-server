@@ -12,12 +12,12 @@ router.post('/', async (req, res) => {
         // Check credentials
         const result = await pool.request()
         .input('Username', username)
-        .execute('CHECKUSER')
-
+        .execute('CHECKLOGIN')
+        console.log(result)
         // no user in db
         if(!result.recordset.length) {
             res.status(404).json('Username not found!')
-        }else if(password !== result.recordset[0].Password.trim()){  // there's some extra space in db :)
+        }else if(password !== result.recordset[0].Password){  // there's some extra space in db :)
             // Check password
             // TODO (feat): if username exist -> decrypt password and compare
             res.status(401).json('Password not match!');
