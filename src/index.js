@@ -1,11 +1,20 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const passport = require('passport');
+
+// Initialize passport and pass global passport object into its configuration
+app.use(passport.initialize()); 
+require('./config/passportConfig')(passport);
+
 
 // Middlewares
 app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
+
+
+// TODO: implement reCAPTCHA check
 
 // Handle Routes
 // TODO: restrict api routes for authenticated user

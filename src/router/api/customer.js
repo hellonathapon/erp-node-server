@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     try {
         const pool = await poolPromise;
         const result = await pool.request()
-        .execute('GET_CUSTOMERS');
+        .execute('GetCustomer');
 
         res.status(200).json(result);
     }catch(err) {
@@ -58,7 +58,19 @@ router.put('/:id', async (req, res) => {
 })
 
 router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+    console.log(id)
 
+    try {
+        const pool = await poolPromise
+        const result = await pool.request()
+        .input('CustomerID', sql.Int, id)
+        .execute('DeleteCustomer')
+
+        res.status(202).json({message: "Deleted Customer successfully"})
+    }catch(err) {
+        console.error(err);
+    }
 })
 
 module.exports = router;
