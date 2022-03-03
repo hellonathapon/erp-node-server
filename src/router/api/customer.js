@@ -2,10 +2,13 @@ const express = require('express');
 const router = express.Router();
 const { poolPromise } = require('../../config/databaseConfig');
 const sql = require('mssql');
+const passport = require('passport');
+
 
 /* <port>/api/customer */ 
 
-router.get('/', async (req, res) => {
+router.get('/', passport.authenticate('jwt', { session: false }),  async (req, res) => {
+    console.log('hit customer route')
     try {
         const pool = await poolPromise;
         const result = await pool.request()
@@ -17,7 +20,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
 
     // TODO: wait for a precise param. names from db maintainer
     const { name, email, phone, fax, status, created_at } = req.body;
@@ -40,7 +43,7 @@ router.post('/', async (req, res) => {
     } 
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     // Extrack ID out of request
     const { _id } = req.params;
 
@@ -57,7 +60,7 @@ router.put('/:id', async (req, res) => {
 
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const { id } = req.params;
     console.log(id)
 

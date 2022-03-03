@@ -3,10 +3,15 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 const { poolPromise } = require('./databaseConfig');
 require('dotenv').config();
 
+/**
+ * The whole process of this to extract token from http request
+ * and verify it 
+ */
+
 const options = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.PASSPORT_SECRET_KEY,
-    algorithms: ['RS256']
+    algorithms: ['HS256']
 };
 
 // NOTE: db query here is just a query for userid or whatever that being 
@@ -17,11 +22,10 @@ const options = {
 
 module.exports = (passport) => {
     passport.use( new JwtStrategy(options, async function(jwt_payload, done) {
-        console.log(jwt_payload);
         try{
             const pool = await poolPromise
             const result = await pool.request()
-            .input('Username', payload.username)
+            .input('UserName', jwt_payload.sub)
             .execute('CHECKLOGIN')
     
             // in case no user

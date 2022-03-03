@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { poolPromise } = require('../../config/databaseConfig');
 const sql = require('mssql');
+const passport = require('passport');
 
-router.get('/', async (req, res) => {
+router.get('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const pool = await poolPromise;
         const result = await pool.request()
@@ -15,7 +16,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
 
     const { name, email, phone, fax, status, created_at } = req.body;
     
@@ -37,7 +38,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const { id } = req.params;
     const { name, email, phone, fax, status, created_at } = req.body;
 
@@ -60,7 +61,7 @@ router.put('/:id', async (req, res) => {
     }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const { id } = req.params;
     
     try {

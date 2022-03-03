@@ -4,8 +4,9 @@ const cors = require('cors');
 const passport = require('passport');
 
 // Initialize passport and pass global passport object into its configuration
-app.use(passport.initialize()); 
 require('./config/passportConfig')(passport);
+app.use(passport.initialize()); 
+
 
 
 // Middlewares

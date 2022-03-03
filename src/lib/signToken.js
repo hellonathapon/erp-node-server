@@ -7,7 +7,7 @@ module.exports.issueJWT = (user_payload) => {
 
     const expiresIn = '1h';
 
-    const privateKey = process.env.JWT_PRIVATE_KEY;
+    const privateKey = process.env.PASSPORT_SECRET_KEY;
 
     const payload = {
         sub: user_payload,

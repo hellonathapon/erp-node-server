@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { poolPromise } = require('../../config/databaseConfig');
 const sql = require('mssql');
+const passport = require('passport');
 
 // :<port>/api/address
-router.get('/', async (req, res) => {
+router.get('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const pool = await poolPromise;
         const result = await pool.request()
@@ -16,7 +17,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
 
     // NOTE: dateCreate is hardcode here :) 
     const { 
@@ -55,7 +56,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const { id } = req.params;
 
     // TODO: there might be a better way to convert a bunch of JSON data type into mssql data
@@ -97,7 +98,7 @@ router.put('/:id', async (req, res) => {
 
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const { id } = req.params;
     console.log(id)
 
