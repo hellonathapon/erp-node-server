@@ -30,6 +30,10 @@ router.post('/', async (req, res) => {
             
             // TODO: Restrict on naccesary user data to be sent to client
             const { UserName, EmpName, Email, Priority } = result.recordset[0];
+            res.cookie('jwt', token, {
+                httpOnly: true,
+                secure: false //--> SET TO TRUE ON PRODUCTION
+            });
             res.status(200).json({
                 success: true, 
                 data: {
@@ -38,7 +42,7 @@ router.post('/', async (req, res) => {
                     email: Email,
                     priority: Priority
                 },
-                token: token
+                // token: token
             });
         }
     }catch (err) {

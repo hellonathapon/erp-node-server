@@ -6,10 +6,18 @@ require('dotenv').config();
 /**
  * The whole process of this to extract token from http request
  * and verify it 
- */
+*/
+
+const cookieExtractor = function(req) {
+    console.log(req.cookies)
+    var token = null;
+    if (req && req.cookies) token = req.cookies['jwt'];
+    console.log(token)
+    return token;
+}; 
 
 const options = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    jwtFromRequest: cookieExtractor, // check token in cookie
     secretOrKey: process.env.PASSPORT_SECRET_KEY,
     algorithms: ['HS256']
 };
@@ -25,9 +33,10 @@ module.exports = (passport) => {
         try{
             const pool = await poolPromise
             const result = await pool.request()
-            .input('UserName', jwt_payload.sub)
+            .input('Username', jwt_payload.sub)
             .execute('CHECKLOGIN')
-    
+            
+            console.log('hi')
             // in case no user
             if(!result.recordset.length) {
                 return done(null, false);

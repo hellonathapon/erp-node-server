@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const passport = require('passport');
+const cookieParser = require('cookie-parser');
 
 // Initialize passport and pass global passport object into its configuration
 require('./config/passportConfig')(passport);
@@ -13,6 +14,7 @@ app.use(passport.initialize());
 app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
+app.use(cookieParser())
 
 
 // TODO: implement reCAPTCHA check

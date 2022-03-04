@@ -14,14 +14,11 @@ module.exports.issueJWT = (user_payload) => {
         iat: Date.now()
     };
 
-    // TODO: for production better use algorithm 'RS256' to sign and verify token, it is required .PEM file set up
+    // TODO: --> for production better use algorithm 'RS256' to sign and verify token, it is required .PEM file set up
     const signedToken = jwt.sign(payload, privateKey, 
         { expiresIn: expiresIn, algorithm: 'HS256' });
 
-    return {
-        token: "Bearer " + signedToken,
-        expires: expiresIn
-    }
+    return signedToken;
 
 }
 
